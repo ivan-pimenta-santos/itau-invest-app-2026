@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: API de Investimentos Itau - Sistema de Cotacoes
+  description: API REST para consulta de ativos, posicoes de clientes e faturamento de corretagem.
+  version: 1.0.0
+
+paths:
+  # Receber ultima cotação de um ativo específico:
+  /v1/cotacoes/{ativo}:
+    get:
+      summary: Retorna a última cotação de um ativo específico.
+      parameters:
+        - name: ativo
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cotação encontrada.
+        '404':
+          description: Ativo não encontrado.
+
+  # Preço médio de um ativo:
+  /v1/usuarios/{idUsuario}/investimentos/{ativo}/preco-medio:
+    get:
+      summary: Retorna o preço médio de compra de um ativo para um usuário.
+      parameters:
+        - name: idUsuario
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: ativo
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Preço médio calculado.
+
+  # Consultar posição de um cliente:
+  /v1/usuarios/{idUsuario}/posicao:
+    get:
+      summary: Retorna a posição consolidada de ativos do cliente.
+      parameters:
+        - name: idUsuario
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de ativos e quantidades retornada.
+
+  # Valor ganho pela corretora:
+  /v1/financeiro/faturamento-corretagem:
+    get:
+      summary: Retorna o valor total acumulado em taxas de corretagem.
+      responses:
+        '200':
+          description: Valor financeiro total.
+
+  # Top 10 maiores clientes em volume financeiro: 
+  /v1/rankings/clientes/maiores-posicoes:
+    get:
+      summary: Retorna os 10 clientes com maior volume financeiro na conta.
+      responses:
+        '200':
+          description: Ranking top 10 por posição.
+
+  # Top 10 clientes que mais pagaram corretagem:
+  /v1/rankings/clientes/maiores-pagadores:
+    get:
+      summary: Retorna os 10 clientes que mais geraram faturamento de corretagem.
+      responses:
+        '200':
+          description: Ranking top 10 por corretagem.
